@@ -2,59 +2,210 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre de Invitación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invitación de Grado</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            touch-action: pan-x pan-y;
             background: linear-gradient(135deg, #8a6bab 0%, #5a3d7a 100%);
-            min-height: 100vh;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .container {
+            width: 100%;
+            height: 70vh;
+            max-height: 500px;
+            perspective: 800px;
+            margin-bottom: 20px;
+        }
+        
+        .sobre-exterior {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #f5e8c8;
+            border-radius: 8px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.6);
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 2;
+        }
+        
+        .sobre-exterior.abierto {
+            transform: rotateX(180deg);
+        }
+        
+        .sobre-cuerpo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #f5e8c8;
+            border-radius: 8px;
+            backface-visibility: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            overflow: hidden;
         }
-        .container { width: 100%; max-width: 500px; perspective: 1000px; }
-        .sobre-exterior {
-            position: relative; width: 100%; height: 300px; background: #f5e8c8;
-            border-radius: 5px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            cursor: pointer; transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 2;
-        }
-        .sobre-exterior.abierto { transform: rotateX(180deg); z-index: 1; }
-        .sobre-cuerpo {
-            position: absolute; width: 100%; height: 100%; background: #f5e8c8;
-            border-radius: 5px; backface-visibility: hidden;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
+        
         .sobre-solapa {
-            position: absolute; top: 0; left: 0; width: 100%; height: 50%; background: #e6d4a8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 45%;
+            background: #e6d4a8;
             clip-path: polygon(0 0, 100% 0, 50% 100%);
-            border-radius: 5px 5px 0 0; transform-origin: top;
+            border-radius: 8px 8px 0 0;
+            transform-origin: top;
             transition: transform 0.5s ease 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
-        .sobre-exterior.abierto .sobre-solapa { transform: rotateX(180deg); }
+        
+        .sobre-exterior.abierto .sobre-solapa {
+            transform: rotateX(180deg);
+        }
+        
         .sello {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80px; height: 80px; background: #c62828; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 40px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); z-index: 3;
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: #c62828;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 
+                0 5px 15px rgba(198, 40, 40, 0.4),
+                inset 0 2px 0 rgba(255,255,255,0.3);
+            z-index: 3;
+            animation: latido 2s ease-in-out infinite;
         }
+        
+        @keyframes latido {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
         .contenido-interior {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white;
-            border-radius: 5px; padding: 20px; transform: rotateX(180deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 8px;
+            transform: rotateX(180deg);
             backface-visibility: hidden;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
         }
+        
         .video-container {
-            width: 100%; height: 100%; border-radius: 8px; overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #000;
         }
-        video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
         .instrucciones {
-            text-align: center; margin-top: 20px; color: white;
-            font-size: 14px; opacity: 0.8;
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+            margin-top: 15px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            animation: parpadeo 2s ease-in-out infinite;
+            font-weight: 500;
+            padding: 0 10px;
+        }
+        
+        @keyframes parpadeo {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 0.6; }
+        }
+        
+        @media (max-width: 360px) {
+            .container {
+                height: 65vh;
+            }
+            .sello {
+                width: 60px;
+                height: 60px;
+                font-size: 25px;
+            }
+            .instrucciones {
+                font-size: 14px;
+            }
+        }
+        
+        @media (min-width: 414px) and (max-width: 896px) {
+            .container {
+                height: 75vh;
+                max-height: 550px;
+            }
+        }
+        
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                height: 85vh;
+                max-height: 300px;
+                width: 80%;
+            }
+            .instrucciones {
+                font-size: 14px;
+                margin-top: 10px;
+            }
+        }
+        
+        .sobre-exterior {
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .sobre-exterior:active {
+            transform: scale(0.95);
+        }
+        
+        .sobre-exterior.abierto:active {
+            transform: rotateX(180deg) scale(0.95);
         }
     </style>
 </head>
@@ -67,34 +218,59 @@
             </div>
             <div class="contenido-interior">
                 <div class="video-container">
-                    <video controls autoplay muted>
-                        <source src="/mnt/data/invitacion-a-mi-grado.mp4" type="video/mp4">
+                    <!-- RUTA CORREGIDA - usa el nombre correcto de tu video -->
+                    <video controls autoplay muted playsinline webkit-playsinline>
+                        <source src="mi-grado.mp4" type="video/mp4">
                         Tu navegador no soporta el elemento de video.
                     </video>
                 </div>
             </div>
         </div>
-        <div class="instrucciones"><p>Toca el sobre para abrirlo</p></div>
+        
+        <div class="instrucciones">
+            Toca el sobre para abrirlo
+        </div>
     </div>
 
     <script>
         const sobreExterior = document.getElementById('sobreExterior');
         let abierto = false;
+        
         function abrirSobre() {
             if (!abierto) {
                 sobreExterior.classList.add('abierto');
                 abierto = true;
+                
                 setTimeout(() => {
                     const video = document.querySelector('video');
                     if (video) {
-                        video.play().catch(() => console.log('Autoplay bloqueado'));
+                        video.play().catch(e => {
+                            console.log('Auto-play bloqueado');
+                        });
                     }
-                }, 1000);
+                }, 600);
             }
         }
+        
         sobreExterior.addEventListener('click', abrirSobre);
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' || e.code === 'Enter') abrirSobre();
+        sobreExterior.addEventListener('touchend', abrirSobre);
+        
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+        
+        let lastTap = 0;
+        document.addEventListener('touchend', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 500 && tapLength > 0) {
+                e.preventDefault();
+            }
+            lastTap = currentTime;
         });
     </script>
 </body>
